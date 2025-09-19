@@ -1,0 +1,12 @@
+I have to find factor of any number
+
+input | output
+2     | 2 have no factor
+3     | 3 have no factor
+4     | 4 have factor
+5     | 5 have no factor
+6     | 6 have factor
+7     | 7 have no factor
+8     | 8 have factor
+9     | 9 have factor
+10    | 10 have factror
