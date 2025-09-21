@@ -1,0 +1,13 @@
+# I have to convarte any number littreals to strings literals
+
+input | output
+23    | "23"
+45    | "45"
+3456  | "3456"
+
+# I have to converte any string literals to number literals
+
+input | output
+"23"  | 23
+"56"  | 56
+"897" | 897
