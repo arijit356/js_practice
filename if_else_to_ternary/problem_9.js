@@ -8,3 +8,11 @@ if (role === "teacher") {
   permissions = "view";
 }
 */
+
+const role = "teacher";
+
+const dashboard = role === "teacher" ?  "gradebook" :  "courses";
+const permissions = role === "teacher" ? "view/edit/grade" : "view";
+
+console.log(dashboard);
+console.log(permissions);
