@@ -9,3 +9,10 @@ if (speed > 100) {
 }
 
 */
+
+const speed = 150;
+const message = speed > 100 ? "Too fast" : "Ok";
+const penalty = speed > 100 ? 200 : 0;
+
+console.log(message);
+console.log(penalty);
