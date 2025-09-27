@@ -6,3 +6,9 @@ if (isMember) {
   discount = 0;
 }
 */
+
+const isMember = true;
+
+const discount = (isMember) ? 10 : 0;
+
+console.log(discount);
