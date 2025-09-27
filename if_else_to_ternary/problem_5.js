@@ -8,3 +8,9 @@ if (marks >= 90) {
 }
 
 */
+
+const marks = 30;
+
+const grade = (marks >= 90) ? "A" : "B";
+
+console.log(grade);
