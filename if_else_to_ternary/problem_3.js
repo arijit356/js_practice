@@ -6,3 +6,9 @@ if (day === "Saturday" || day === "Sunday") {
   isWeekend = false;
 }
 */
+
+const day = "saturday";
+
+const isWeekend = (day === "saturday" || day === "sunday");
+
+console.log(isWeekend)
