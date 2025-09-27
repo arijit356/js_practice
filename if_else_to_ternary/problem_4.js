@@ -7,3 +7,9 @@ if (cartItems.length === 0) {
 }
 
 */
+
+const cardItem = "";
+
+const status = (cardItem.length === 0) ? "empty" : "ready";
+
+console.log(status);
