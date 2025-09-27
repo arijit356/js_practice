@@ -8,3 +8,11 @@ if (age >= 65) {
   ticketPrice = 10;
 }
 */
+
+const age = 65;
+
+const category = age >= 65 ? "senior" : "adult";
+const ticketPrice = age >= 65 ? 5 : 10;
+
+console.log(category);
+console.log(ticketPrice);
