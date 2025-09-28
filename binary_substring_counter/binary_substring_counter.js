@@ -29,7 +29,7 @@ function isSubstring(string, subString, lengthOfSubString, index) {
 
 function ocuranseInBinary(decimal, subString) {
   const string = isDecimalToBinary(decimal);
-  const lengthOfString = string.length;//1000001  00
+  const lengthOfString = string.length;
   const lengthOfSubString = subString.length;
 
   let count = 0;
