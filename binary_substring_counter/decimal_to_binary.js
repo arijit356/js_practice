@@ -1,6 +1,28 @@
 
-function isDecimalToBinary(decimal, string){
-  return true;
+function isDecimalToBinary(decimal, string) {
+  let mul = 1;
+  let binary = 0;
+
+  let reminder = decimal % 2;
+  binary = binary + (reminder * mul);
+  mul = mul * 10;
+  decimal = (decimal - reminder) / 2;
+
+  reminder = decimal % 2;
+  binary = binary + (reminder * mul);
+  mul = mul * 10;
+  decimal = (decimal - reminder) / 2;
+
+  reminder = decimal % 2;
+  binary = binary + (reminder * mul);
+  mul = mul * 10;
+  decimal = (decimal - reminder) / 2;
+
+  reminder = decimal % 2;
+  binary = binary + (reminder * mul);
+  mul = mul * 10;
+  decimal = (decimal - reminder) / 2;
+  console.log(binary);
 }
 
 function getResultSymbol(expectedValue, actualValue) {
@@ -12,7 +34,7 @@ function displayResult(symbol, inputSection, actualSection, expectedSection) {
   message += " | " + inputSection;
   message += " | " + actualSection;
   message += " | " + expectedSection;
-  console.log(message);
+  // console.log(message);
 }
 
 function composeMessage(decimal, string, expectedValue, actualValue) {
@@ -28,6 +50,8 @@ function testDecimalToBinary(decimal, string, expectedValue) {
   composeMessage(decimal, string, expectedValue, actualValue);
 }
 function testAll() {
+  testDecimalToBinary(10, "1001", true);
+  testDecimalToBinary(8, "1000", true);
   testDecimalToBinary(65, "1000001", true);
   testDecimalToBinary(65, "1000001", true);
   testDecimalToBinary(21,"10101", true);
