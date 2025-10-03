@@ -18,7 +18,7 @@ function getPrimeNumbersInRange(startOfRange, endOfRange) {
     }
     return primeNumberString;
 }
-
+ 
 function getResultSymbol(expectedValue, actualValue) {
     return expectedValue === actualValue ? "✅" : "❌";
 }
