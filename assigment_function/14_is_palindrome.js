@@ -20,7 +20,7 @@ function getResultSymbol(expectedValue, actualValue) {
 function composeMessage(symbol, a, expectedValue, actualValue) {
     return `${symbol} palindrome of ${a} number shuold be : ${expectedValue}, actual value: ${actualValue}`;
 }
-
+ 
 function isArmstrong(a, expectedValue) {
     const actualValue = checkPalindrome(a);
     const symbol = getResultSymbol(expectedValue, actualValue);
