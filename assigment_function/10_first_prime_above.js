@@ -25,7 +25,7 @@ function getNextPrime(number) {
 function getResultSymbol(expectedValue, actualValue) {
   return expectedValue === actualValue ? "✅" : "❌";
 }
-
+ 
 function composeMessage(resultSymbol, number, expectedValue, actualValue) {
   return `${resultSymbol} Prime check for ${number}: expected ${expectedValue}, actual ${actualValue}`;
 }
