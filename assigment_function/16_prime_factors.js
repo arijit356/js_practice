@@ -11,7 +11,7 @@ const a = 0;
 // START YOUR CODE AFTER THIS LINE. DO NOT REMOVE THIS LINE
 
 let input = a;
-
+ 
 let primeFactor = 2;
 while (input > 1) {
 
