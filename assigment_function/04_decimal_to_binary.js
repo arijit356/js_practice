@@ -14,7 +14,7 @@ function convertDecimalToBinary(a){
 function getResultSymbol(expectedValue, actualValue) {
     return expectedValue === actualValue ? "✅" : "❌";
 }
-
+ 
 function composeMessage(resultSymbol, n, expectedValue, actualValue) {
     return `${resultSymbol} fibonacci of ${n} series is ${expectedValue} and actual value is ${actualValue}`;
 }
