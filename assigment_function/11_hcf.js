@@ -16,7 +16,7 @@ function checkHcf(num1, num2) {
 
 function getResultSymbol(expectedValue, actualValue) {
     return expectedValue === actualValue ? "✅" : "❌";
-}
+} 
 
 function composeMessage(symbol, num1, num2, expectedValue, actualValue) {
     return `${symbol} HCF of ${num1} & ${num2}: expected ${expectedValue}, actual ${actualValue}`;
