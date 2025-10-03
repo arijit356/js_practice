@@ -12,7 +12,7 @@ function getResultSymbol(actualValue, expectedValue) {
 
 function composeMessage(symbol, value, expectedValue, actualValue) {
     return `${symbol} factorial(${value}) should be ${expectedValue}, actual value is ${actualValue}`;
-}
+} 
 
 function evaluateFactorial(value, expectedValue) {
     const actualValue = factorial(value);
