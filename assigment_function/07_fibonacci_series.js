@@ -18,7 +18,7 @@ function calculateNthSeriesFibonacci(n) {
     }
     return fibonacciSeriesString;
 }
-
+ 
 function getResultSymbol(expectedValue, actualValue) {
     return expectedValue === actualValue ? "✅" : "❌";
 }
