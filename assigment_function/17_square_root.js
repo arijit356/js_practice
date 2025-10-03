@@ -21,7 +21,7 @@ function testPrimeNumber(a, expectedValue) {
   const message = composeMessage(resultSymbol, a, expectedValue, actualValue);
   console.log(message);
 }
-
+ 
 function printAll() {
   testPrimeNumber(1, 1);
   testPrimeNumber(49, 7);
