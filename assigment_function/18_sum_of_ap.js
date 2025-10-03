@@ -22,7 +22,7 @@ function testAPSum(a, d, n, expectedValue) {
     const symbol = getResultSymbol(expectedValue, actualValue);
     console.log(composeMessage(symbol, a, d, n, expectedValue, actualValue));
 }
-
+ 
 function printAll() {
     testAPSum(0, 5, 20, 950);
     testAPSum(10, 2, 20, 580);
