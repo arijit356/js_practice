@@ -11,7 +11,7 @@ function findEvenNumbersInRange(start, end) {
 }
 
 function getResultSymbol(expectedValue, actualValue) {
-    return expectedValue === actualValue ? "✅" : "❌";
+    return expectedValue === actualValue ? "✅" : "❌"; 
 }
 
 function composeMessage(symbol, actualValue, expectedValue) {
