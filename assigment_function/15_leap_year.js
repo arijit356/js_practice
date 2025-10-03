@@ -19,7 +19,7 @@ function isArmstrong(year, expectedValue) {
   const symbol = getResultSymbol(expectedValue, actualValue);
   console.log(composeMessage(symbol, year, expectedValue, actualValue));
 }
-
+ 
 function printAll() {
   isArmstrong(2000, true);
   isArmstrong(2004, true);
