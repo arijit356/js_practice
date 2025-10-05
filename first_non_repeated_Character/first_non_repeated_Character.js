@@ -1,17 +1,26 @@
+function isRepetedInner(string, indexI, indexJ) {
+  const lengthOfString = string.length;
 
+  if (indexJ < lengthOfString) {
+    if (indexI === indexJ) {
+      return isRepetedInner(string, indexI, indexJ + 1);
+    }
+    if (string[indexI] !== string[indexJ]) {
+      return isRepetedInner(string, indexI, indexJ + 1);
+    }
+    return true;
+  }
+  return false;
+}
 
 function findNonRepetedOuter(string, indexI, indexJ) {
   const lengthOfString = string.length;
 
-  if (indexI < lengthOfString && indexJ < lengthOfString) {
-    if (indexI === indexJ) {
-      return findNonRepetedOuter(string, indexI, indexJ + 1);
+  if (indexI < lengthOfString) {
+    if (isRepetedInner(string, indexI, indexJ)) {
+      indexJ = 0;
+      return findNonRepetedOuter(string, indexI + 1, indexJ);
     }
-    if (string[indexI] !== string[indexJ]) {
-      return findNonRepetedOuter(string, indexI, indexJ + 1);
-    }
-    indexJ = 0;
-    return findNonRepetedOuter(string, indexI + 1, indexJ);
   }
   return indexI;
 }
