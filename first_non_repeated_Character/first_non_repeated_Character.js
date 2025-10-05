@@ -1,7 +1,29 @@
 
-function nonRepetedCharacter(string){
+
+function findNonRepetedOuter(string, indexI, indexJ) {
   const lengthOfString = string.length;
-  return "w";
+
+  if (indexI < lengthOfString && indexJ < lengthOfString) {
+    if (indexI === indexJ) {
+      return findNonRepetedOuter(string, indexI, indexJ + 1);
+    }
+    if (string[indexI] !== string[indexJ]) {
+      return findNonRepetedOuter(string, indexI, indexJ + 1);
+    }
+    indexJ = 0;
+    return findNonRepetedOuter(string, indexI + 1, indexJ);
+  }
+  return indexI;
+}
+function nonRepetedCharacter(string) {
+  const lengthOfString = string.length;
+
+  const indexOfCharacter = findNonRepetedOuter(string, 0, 0);
+  if (indexOfCharacter === lengthOfString) {
+    return "";
+  } else {
+    return string[indexOfCharacter];
+  }
 }
 
 function getResultSymbol(expectedValue, actualValue) {
@@ -31,10 +53,12 @@ function testNonRepeatedCharacter(string, expectedValue) {
 
 function testAll() {
   testNonRepeatedCharacter("swiss", "w");
-  // testNonRepeatedCharacter("aabbcc", "");
-  // testNonRepeatedCharacter("abcabcde", "d");
-  // testNonRepeatedCharacter("a", "a");
-  // testNonRepeatedCharacter("strength", "htgnerts");
+  testNonRepeatedCharacter("aabbcc", "");
+  testNonRepeatedCharacter("abcabcde", "d");
+  testNonRepeatedCharacter("a", "a");
+  testNonRepeatedCharacter("aac", "c");
+  testNonRepeatedCharacter("aaa", "");
+  testNonRepeatedCharacter("abbac", "c");
 }
 
 testAll();
