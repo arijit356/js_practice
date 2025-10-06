@@ -1,35 +1,28 @@
-function sumOfAP(a, d, n) {
-
-  if(n === 0){
-    return 0;
-  }
-  return a + sumOfAP(a+d, d, n-1);
-}
 
 
 function getResultSymbol(expectedValue, actualValue) {
   return expectedValue === actualValue ? "✅" : "❌";
 }
 
-function displayResult(symbol, inputSection, actualSection, expectedSection,purpose) {
+function displayResult(symbol, input, actual, expected,purpose) {
   let message = symbol;
   message += " " + purpose;
-  message += "\n\n | " + inputSection;
-  message += "\n | " + actualSection;
-  message += "\n | " + expectedSection;
+  message += "\n\n | " + input;
+  message += "\n | " + actual;
+  message += "\n | " + expected;
   message += "\n" + "--------------- \n";
   return message;
 }
 
 function composeMessage(a, d, n, expectedValue, actualValue,purpose) {
   const symbol = getResultSymbol(expectedValue, actualValue);
-  const inputSection = "a, d, n = [" + a +"] ["+ d +"] ["+ n + "]";
-  const actualSection = "result = [" + actualValue + "]";
-  const expectedSection = "expected value = [" + expectedValue + "]";
+  const input = "a, d, n = [" + a +"] ["+ d +"] ["+ n + "]";
+  const actual = "result = [" + actualValue + "]";
+  const expected = "expected value = [" + expectedValue + "]";
   if(expectedValue === actualValue){
     return symbol + purpose;
   }
-  return displayResult(symbol, inputSection, actualSection, expectedSection,purpose);
+  return displayResult(symbol, input, actual, expected,purpose);
 }
 
 function testSumOfAp(a, d, n, expectedValue, purpose) {
