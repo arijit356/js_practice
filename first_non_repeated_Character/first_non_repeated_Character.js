@@ -1,38 +1,32 @@
 function isRepetedInner(string, indexI, indexJ) {
   const lengthOfString = string.length;
 
-  if (indexJ < lengthOfString) {
-    if (indexI === indexJ) {
-      return isRepetedInner(string, indexI, indexJ + 1);
-    }
-    if (string[indexI] !== string[indexJ]) {
-      return isRepetedInner(string, indexI, indexJ + 1);
-    }
+  if (indexJ === lengthOfString) {
     return true;
   }
-  return false;
-}
 
-function findNonRepetedOuter(string, indexI, indexJ) {
-  const lengthOfString = string.length;
-
-  if (indexI < lengthOfString) {
-    if (isRepetedInner(string, indexI, indexJ)) {
-      indexJ = 0;
-      return findNonRepetedOuter(string, indexI + 1, indexJ);
-    }
+  if (string[indexI] === string[indexJ] && indexI !== indexJ) {
+    return false;
   }
-  return indexI;
+  
+  return isRepetedInner(string, indexI, indexJ + 1);
 }
+
+function findNonRepetedOuter(string, indexI) {     // swiss
+
+  if (isRepetedInner(string, indexI, 0)) {
+    return indexI;
+  }
+  return findNonRepetedOuter(string, indexI + 1);
+}
+
 function nonRepetedCharacter(string) {
-  const lengthOfString = string.length;
 
-  const indexOfCharacter = findNonRepetedOuter(string, 0, 0);
-  if (indexOfCharacter === lengthOfString) {
+  const indexOfCharacter = findNonRepetedOuter(string, 0);
+  if (indexOfCharacter === string.length) {
     return "";
-  } else {
-    return string[indexOfCharacter];
   }
+  return string[indexOfCharacter];
 }
 
 function getResultSymbol(expectedValue, actualValue) {
@@ -67,6 +61,7 @@ function testAll() {
   testNonRepeatedCharacter("a", "a");
   testNonRepeatedCharacter("aac", "c");
   testNonRepeatedCharacter("aaa", "");
+  testNonRepeatedCharacter("abab", "");
   testNonRepeatedCharacter("abbac", "c");
 }
 
