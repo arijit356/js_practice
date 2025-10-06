@@ -1,4 +1,4 @@
-function isRepetedInner(string, indexI, indexJ) {
+function isRepeatedInner(string, indexI, indexJ) {
   const lengthOfString = string.length;
 
   if (indexJ === lengthOfString) {
@@ -9,20 +9,19 @@ function isRepetedInner(string, indexI, indexJ) {
     return false;
   }
   
-  return isRepetedInner(string, indexI, indexJ + 1);
+  return isRepeatedInner(string, indexI, indexJ + 1);
 }
 
-function findNonRepetedOuter(string, indexI) {     // swiss
+function findNonRepeatedOuter(string, indexI) {     // swiss
 
-  if (isRepetedInner(string, indexI, 0)) {
-    return indexI;
+  if (isRepeatedInner(string, indexI, 0)) {
+    return indexI;  
   }
-  return findNonRepetedOuter(string, indexI + 1);
+  return findNonRepeatedOuter(string, indexI + 1);
 }
 
-function nonRepetedCharacter(string) {
-
-  const indexOfCharacter = findNonRepetedOuter(string, 0);
+function nonRepeatedCharacter(string) {
+  const indexOfCharacter = findNonRepeatedOuter(string, 0);
   if (indexOfCharacter === string.length) {
     return "";
   }
@@ -50,7 +49,7 @@ function composeMessage(string, expectedValue, actualValue) {
 }
 
 function testNonRepeatedCharacter(string, expectedValue) {
-  const actualValue = nonRepetedCharacter(string);
+  const actualValue = nonRepeatedCharacter(string);
   composeMessage(string, expectedValue, actualValue);
 }
 
