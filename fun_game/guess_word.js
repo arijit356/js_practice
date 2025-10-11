@@ -8,6 +8,12 @@ function red(text) {
 function orange(text) {
   return "\x1B[93m" + text + "\x1B[0m";
 }
+function green(text) {
+  return "\x1B[32m" + text + "\x1B[0m";
+}
+function bold(text) {
+  return "\x1B[1m" + text + "\x1B[0m";
+}
 
 function randomNumberGenerator(endRange) {
   return Math.floor(Math.random() * endRange);
@@ -50,19 +56,19 @@ function play(randomWord, totalChances = (randomWord.length * 2) - 2) {
   let possibleWordInGuessedWord = [];
   for (let index = 0; index < randomWord.length; index++) {
     if (randomWord.includes(userWord[index])) {
-      possibleWordInGuessedWord.push("1");
+      possibleWordInGuessedWord.push(orange(userWord[index]));
     } else {
-      possibleWordInGuessedWord.push("0");
+      possibleWordInGuessedWord.push(red(userWord[index]));
     }
 
     if (randomWord[index] === userWord[index]) {
-      possibleWordInGuessedWord[index] = "2";
+      possibleWordInGuessedWord[index] = green(userWord[index]);
     }
   }
 
-  console.log(possibleWordInGuessedWord);
+  console.log(possibleWordInGuessedWord.join(" "));
+  space();
   if (userWord === randomWord.join("")) {
-    space();
     console.log("yes, you guessed actual word, you won the game");
     space();
     return confirmation();
