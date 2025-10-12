@@ -26,8 +26,7 @@ function selectEmoji() {
 }
 function selectPosition(text) {
   const position = parseInt(prompt(`Select ${text} Position 1 to 9 :`));
-  console.log(position);
-  if (position < 1 || position > 9 || position === "NaN") {
+  if (position < 1 || position > 9 || position.toString() === "NaN") {
     console.log("invalid position");
     return selectPosition(text);
   }
