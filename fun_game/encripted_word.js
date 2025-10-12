@@ -1,7 +1,12 @@
 function space() {
   console.log("\n");
 }
-
+function confirmation() {
+  const retry = confirm("Do you want to play again : ")
+  if (retry) {
+    main();
+  }
+}
 function randomNumberGenerator(endRange) {
   return Math.floor(Math.random() * endRange);
 }
@@ -11,24 +16,59 @@ function guessedWord() {
   return wordList[randomNumberGenerator(wordList.length)].split("");
 }
 
-function encriptedWord(word) {
-  let coppyOfWord = word.join("");
-  let arrayWord = coppyOfWord.split("");
-  for (let index = arrayWord.length - 1; index > -1; index--) {
-    let temp = arrayWord[index];
-    let randomIndex = randomNumberGenerator(arrayWord.length);
-    arrayWord[index] = arrayWord[randomIndex];
-    arrayWord[randomIndex] = temp;
+function encriptedWordLevel1(word) {
+  for (let index = word.length - 1; index > -1; index--) {
+    let temp = word[index];
+    let randomIndex = randomNumberGenerator(word.length);
+    word[index] = word[randomIndex];
+    word[randomIndex] = temp;
   }
-  return arrayWord;
+  return word;
+}
+function copyWord(word) {
+  const coppyOfWord = word.join("");
+  return coppyOfWord.split("");
 }
 
+function encriptedWordLevel2(word) {
+  const numberOfletter = 8
+  if (word.length < numberOfletter) {
+    for (let index = 0; index < numberOfletter - word.length; index++) {
+      word.push(word[randomNumberGenerator(word.length)]);
+    }
+    return encriptedWordLevel1(word);
+  }
+  return word;
+}
+function encriptedWord(word, chosedLevel) {
+  const copyedWord = copyWord(word);
+  const level1 = encriptedWordLevel1(copyedWord);
+  if (chosedLevel === "1") {
+    return level1;
+  }
+  const copyedLevel1Word = copyWord(level1);
+  const level2 = encriptedWordLevel2(copyedLevel1Word);
+  if (chosedLevel === "2") {
+    return level2;
+  }
+}
+
+
+function choseLevel(word) {
+  const chosedLevel = prompt("which level do you want to play : 1/2/3");
+  if (chosedLevel === "1") {
+    return encriptedWord(word, chosedLevel);
+  }
+  if (chosedLevel === "2") {
+    return encriptedWord(word, chosedLevel);
+  }
+}
 function play(randomWord, totalChances = 5) {
   if (totalChances === 0) {
     console.log("You loss to decript meggage");
     console.log("better luck next Time");
     console.log(randomWord.join(""));
-    return;
+    return confirmation();
   }
 
   space();
@@ -37,8 +77,8 @@ function play(randomWord, totalChances = 5) {
 
   if (randomWord.join("") === userGuessedWord) {
     console.log("yes,you cracke encripted word");
-    return;
-  }else{
+    return confirmation();
+  } else {
     console.log("No, This is not real word");
   }
   return play(randomWord, totalChances - 1);
@@ -67,8 +107,8 @@ function gameDescription() {
 function main() {
   gameDescription();
   const word = guessedWord();
+  const encripted = choseLevel(word).join("");
   console.log("Encripted word is : ");
-  const encripted = encriptedWord(word).join("");
   console.log(encripted);
   play(word);
 }
