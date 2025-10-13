@@ -44,7 +44,7 @@ function randomNumberGenerator(endRange) {
 
 function booms() {
   let boomIndex = [];
-  for (let index = 0; index <= 20; index++) {
+  for (let index = 0; index <= 10; index++) {
     let randomNumber = randomNumberGenerator(NUMBER_BOARD.length);
     if (NUMBER_BOARD[randomNumber] !== BOOM) {
       NUMBER_BOARD[randomNumber] = BOOM;
@@ -70,26 +70,33 @@ function play(indexOfBooms, count) {
   const userInput = parseInt(prompt("enter a number : "));
   if (userInput < 1 || userInput > 100 || isNaN(userInput) || CORRECT_NUMBER.includes(userInput)) {
     console.log("Invalid input, give proper inputs with in range : ");
-    return play(indexOfBooms);
+    return play(indexOfBooms,count);
   }
 
   if (isLossGame(userInput, indexOfBooms)) {
     console.clear();
+  console.log(indexOfBooms);
+
+    console.log(`your final result is ${count}`);
     console.log(renderBoard());
     console.log("you loss the game");
     return;
   }
   console.clear();
+  console.log(indexOfBooms);
+
   console.log(renderBoard());
   count++;
+  console.log(`Count is : ${count}`);
   if (count === NUMBER_BOARD.length - indexOfBooms.length) {
     console.log("you won the match");
   }
-  return play(indexOfBooms);
+  return play(indexOfBooms,count);
 }
 
 function main() {
   let indexOfBooms = booms();
+  console.log(indexOfBooms);
   console.log(`There are ${indexOfBooms.length} booms...`);
   let count = 0;
   play(indexOfBooms, count);
