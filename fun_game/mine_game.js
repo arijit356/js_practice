@@ -1,5 +1,5 @@
-const CORRECT = "✅";
-const BOOM = "💥";
+const SYMBOL_SAFE = "✅";
+const SYMBOL_BOOM = "💥";
 
 const NUMBER_BOARD = [
   "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -25,12 +25,12 @@ const COPY_NUMBER_BOARD = [
   "81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
   "91", "92", "93", "94", "95", "96", "97", "98", "99", "100"
 ];
-const CORRECT_NUMBER = [];
+const SAFE_SELECTIONS = [];
 
-function renderBoard() {
+function renderBoard(board) {
   let boardItems = "";
-  for (let index = 0; index < COPY_NUMBER_BOARD.length; index++) {
-    boardItems += COPY_NUMBER_BOARD[index] + "\t";
+  for (let index = 0; index < board.length; index++) {
+    boardItems += board[index] + "\t";
     if (index % 10 === 9) {
       boardItems += "\n"
     }
@@ -38,68 +38,73 @@ function renderBoard() {
   return boardItems;
 }
 
-function randomNumberGenerator(endRange) {
+function getRandomNumber(endRange) {
   return Math.floor((Math.random() * endRange) + 1);
 }
 
-function booms() {
-  let boomIndex = [];
-  for (let index = 0; index <= 10; index++) {
-    let randomNumber = randomNumberGenerator(NUMBER_BOARD.length);
-    if (NUMBER_BOARD[randomNumber] !== BOOM) {
-      NUMBER_BOARD[randomNumber] = BOOM;
-      boomIndex.push(randomNumber);
+function placeBooms(totalBooms = 10) {
+  let boomPositions = [];
+  for (let index = 0; index <= totalBooms; index++) {
+    let randomNumber = getRandomNumber(NUMBER_BOARD.length);
+    if (COPY_NUMBER_BOARD[randomNumber] !== SYMBOL_BOOM) {
+      COPY_NUMBER_BOARD[randomNumber -1] = SYMBOL_BOOM;
+      boomPositions.push(randomNumber);
     }
   }
-  return boomIndex;
+  return boomPositions;
 }
 
-function isLossGame(userInput, IndexOfBooms) {
-  console.log(IndexOfBooms);
+function isLossGame(userChoice, boomPositions) {
+  console.log(boomPositions);
 
-  if (IndexOfBooms.includes(userInput)) {
-    COPY_NUMBER_BOARD[userInput - 1] = BOOM;
+  if (boomPositions.includes(userChoice)) {
     return true;
   }
-  CORRECT_NUMBER.push(userInput);
-  COPY_NUMBER_BOARD[userInput - 1] = CORRECT;
+  SAFE_SELECTIONS.push(userChoice);
+  NUMBER_BOARD[userChoice - 1] = SYMBOL_SAFE;
   return false;
 }
 
-function play(indexOfBooms, count) {
-  const userInput = parseInt(prompt("enter a number : "));
-  if (userInput < 1 || userInput > 100 || isNaN(userInput) || CORRECT_NUMBER.includes(userInput)) {
-    console.log("Invalid input, give proper inputs with in range : ");
-    return play(indexOfBooms,count);
+function play(boomPositions, score) {
+  const userChoice = parseInt(prompt("💡 Choose a number between 1 and 100:"));
+  if (userChoice < 1 || userChoice > 100 || isNaN(userChoice) || SAFE_SELECTIONS.includes(userChoice)) {
+    console.log("⚠️ Invalid or repeated choice! Try again with a number between 1 and 100.");
+    return play(boomPositions, score);
   }
 
-  if (isLossGame(userInput, indexOfBooms)) {
+  if (isLossGame(userChoice, boomPositions)) {
     console.clear();
-  console.log(indexOfBooms);
+  console.log(boomPositions);
 
-    console.log(`your final result is ${count}`);
-    console.log(renderBoard());
-    console.log("you loss the game");
+    console.log(renderBoard(COPY_NUMBER_BOARD));
+    console.log(`💥 Oops! You hit a BOOM at position ${userChoice}!`);
+    console.log(`🎯 Your final score: ${score}`);
+    console.log("😢 Game Over! Better luck next time.");
     return;
   }
+  score++;
   console.clear();
-  console.log(indexOfBooms);
+  console.log(boomPositions);
 
-  console.log(renderBoard());
-  count++;
-  console.log(`Count is : ${count}`);
-  if (count === NUMBER_BOARD.length - indexOfBooms.length) {
-    console.log("you won the match");
+  console.log(renderBoard(NUMBER_BOARD));
+  console.log(`${SYMBOL_SAFE} Nice move! Your current score: ${score}`);
+  if (score === NUMBER_BOARD.length - boomPositions.length) {
+    console.log("🏆 Congratulations! You cleared the entire board safely!");
+    return;
   }
-  return play(indexOfBooms,count);
+  return play(boomPositions, score);
 }
 
 function main() {
-  let indexOfBooms = booms();
-  console.log(indexOfBooms);
-  console.log(`There are ${indexOfBooms.length} booms...`);
-  let count = 0;
-  play(indexOfBooms, count);
+  console.clear();
+  console.log("🎮 Welcome to the Minefield Game!");
+  console.log("🧠 Choose wisely! Some numbers hide 💥 booms. Others are ✅ safe.");
+  console.log("-".repeat(80));
+  console.log(renderBoard(NUMBER_BOARD));
+  let boomPositions = placeBooms();
+  console.log(boomPositions);
+  console.log(`💣 There are ${boomPositions.length} hidden booms on the board...`);
+  play(boomPositions, 0);
 }
 
 main();
