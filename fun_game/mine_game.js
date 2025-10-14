@@ -83,7 +83,7 @@ function showHint(userChoice) {
     userChoice - 10, userChoice - 9, userChoice - 11,
   ]
   const boomCount = countNearbyBooms(nearbyIndices);
-  NUMBER_BOARD[userChoice - 1] = "\x1B[43m" + boomCount + "\x1B[0m";
+    NUMBER_BOARD[userChoice - 1] = "\x1B[43m" + boomCount + "\x1B[0m";
   return;
 }
 
