@@ -1,25 +1,38 @@
+const MIN_LENGTH = 10;
+
 function space() {
   console.log("\n");
 }
 function confirmation() {
-  const retry = confirm("Do you want to play again : ")
+  const retry = confirm("🔁 Do you want to play again?")
   if (retry) {
     main();
   }
+  console.log("👋 Thanks for playing! See you next time!");
+  return;
 }
-function randomNumberGenerator(endRange) {
+function getRandomNumber(endRange) {
   return Math.floor(Math.random() * endRange);
 }
-function guessedWord() {
+function getRandomWord() {
   const wordList = ["apple", "banana", "pineapple", "orange", "tomato",
-    "time", "year", "home", "life", "work", "love", "good", "long",];
-  return wordList[randomNumberGenerator(wordList.length)].split("");
+    "time", "year", "home", "life", "work", "love", "good", "long",
+    "make", "know", "take", "come", "give", "look", "want", "need",
+    "feel", "help", "talk", "move", "stay", "play", "read", "write",
+    "think", "bring", "begin", "build", "learn", "teach", "watch",
+    "sleep", "speak", "share", "laugh", "start", "drive", "walk",
+    "child", "world", "place", "money", "house", "story", "thing",
+    "water", "music", "happy", "great", "small", "early", "right",
+    "today", "every", "never", "always", "before", "after", "people",
+    "friend", "family", "school", "health", "beauty", "travel", "dream",
+    "future", "energy", "nature", "change", "moment", "reason"];
+  return wordList[getRandomNumber(wordList.length)].split("");
 }
 
-function encriptedWordLevel1(word) {
+function shuffleWord(word) {
   for (let index = word.length - 1; index > -1; index--) {
     let temp = word[index];
-    let randomIndex = randomNumberGenerator(word.length);
+    let randomIndex = getRandomNumber(word.length);
     word[index] = word[randomIndex];
     word[randomIndex] = temp;
   }
@@ -30,86 +43,89 @@ function copyWord(word) {
   return coppyOfWord.split("");
 }
 
-function encriptedWordLevel2(word) {
-  const numberOfletter = 8
-  if (word.length < numberOfletter) {
-    for (let index = 0; index < numberOfletter - word.length; index++) {
-      word.push(word[randomNumberGenerator(word.length)]);
+function extendWord(word) {
+  if (word.length < MIN_LENGTH) {
+    for (let index = 0; index < MIN_LENGTH - word.length; index++) {
+      word.push(word[getRandomNumber(word.length)]);
     }
-    return encriptedWordLevel1(word);
+    return shuffleWord(word);
   }
   return word;
 }
-function encriptedWord(word, chosedLevel) {
-  const copyedWord = copyWord(word);
-  const level1 = encriptedWordLevel1(copyedWord);
-  if (chosedLevel === "1") {
-    return level1;
+function encryptWord(word, chosenLevel) {
+  const baseCopy = copyWord(word);
+  const level1Word = shuffleWord(baseCopy);
+  if (chosenLevel === "1") {
+    return level1Word;
   }
-  const copyedLevel1Word = copyWord(level1);
-  const level2 = encriptedWordLevel2(copyedLevel1Word);
-  if (chosedLevel === "2") {
-    return level2;
+  const level2Copy = extendWord(baseCopy);
+  if (chosenLevel === "2") {
+    return level2Copy;
   }
 }
 
 
-function choseLevel(word) {
-  const chosedLevel = prompt("which level do you want to play : 1/2/3");
-  if (chosedLevel === "1") {
-    return encriptedWord(word, chosedLevel);
+function selectDifficulty(word) {
+  const level = prompt("🎚️ Choose difficulty level (1 or 2):");
+  if (level === "1" || level === "2") {
+    return encryptWord(word, level);
   }
-  if (chosedLevel === "2") {
-    return encriptedWord(word, chosedLevel);
-  }
+  console.log("⚠️ Invalid choice. Please enter 1 or 2.");
+  return selectDifficulty(word);
 }
+
 function play(randomWord, totalChances = 5) {
   if (totalChances === 0) {
-    console.log("You loss to decript meggage");
-    console.log("better luck next Time");
-    console.log(randomWord.join(""));
+    console.log("❌ You ran out of chances!");
+    console.log("🔍 The correct word was:", randomWord.join(""));
+    console.log("Better luck next time!");
     return confirmation();
   }
 
   space();
-  console.log(`you have only ${totalChances} chances left`);
-  const userGuessedWord = prompt("Write decript word : ");
+ console.log(`🧩 You have ${totalChances} ${totalChances === 1 ? "chance" : "chances"} left.`);
+  const guess = prompt("💭 Enter your guess for the decrypted word:");
 
-  if (randomWord.join("") === userGuessedWord) {
-    console.log("yes,you cracke encripted word");
+  if (randomWord.join("") === guess) {
+    console.log("🎉 Congratulations! You decrypted the word successfully!");
     return confirmation();
   } else {
-    console.log("No, This is not real word");
+    console.log("❌ Not quite right! Try again...");
   }
   return play(randomWord, totalChances - 1);
 }
 
-function gameName() {
-  return "Encripted Message";
+function showGameTitle() {
+  return "🔐 Encrypted Message Game";;
 }
 function underline(text) {
   console.log(text);
   console.log("-".repeat(text.length));
 }
 function gameRule() {
-  console.log("You have to Guess a encripted Message that show you");
+  underline("🕹️ How to Play:");
+  console.log("A word is encrypted (scrambled).");
+  console.log("Your task is to guess the original word within limited attempts.");
+  console.log("Difficulty Level 1: Basic shuffle.");
+  console.log("Difficulty Level 2: Extended and shuffled word.");
+  console.log("-".repeat(60));
 }
 
-function gameDescription() {
-  const text = gameName();
+function describeGame() {
+  const text = showGameTitle();
   underline(text);
-  space();
-  underline("Game Rule");
   space();
   gameRule();
 }
 
 function main() {
-  gameDescription();
-  const word = guessedWord();
-  const encripted = choseLevel(word).join("");
-  console.log("Encripted word is : ");
+  console.clear();
+  describeGame();
+  const word = getRandomWord();
+  const encripted = selectDifficulty(word).join("");
+  console.log("🕵️‍♂️ Encrypted word is:");
   console.log(encripted);
+
   play(word);
 }
 
