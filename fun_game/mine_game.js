@@ -1,3 +1,4 @@
+
 const SYMBOL_SAFE = "✅";
 const SYMBOL_BOOM = "💥";
 
@@ -13,7 +14,7 @@ const NUMBER_BOARD = [
   "81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
   "91", "92", "93", "94", "95", "96", "97", "98", "99", "100"
 ];
-const COPY_NUMBER_BOARD = [
+const BOOMS_BOARD = [
   "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
   "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
@@ -46,8 +47,8 @@ function placeBooms(totalBooms = 10) {
   let boomPositions = [];
   for (let index = 0; index <= totalBooms; index++) {
     let randomNumber = getRandomNumber(NUMBER_BOARD.length);
-    if (COPY_NUMBER_BOARD[randomNumber] !== SYMBOL_BOOM) {
-      COPY_NUMBER_BOARD[randomNumber - 1] = SYMBOL_BOOM;
+    if (BOOMS_BOARD[randomNumber] !== SYMBOL_BOOM) {
+      BOOMS_BOARD[randomNumber - 1] = SYMBOL_BOOM;
       boomPositions.push(randomNumber);
     }
   }
@@ -56,13 +57,34 @@ function placeBooms(totalBooms = 10) {
 
 function isLossGame(userChoice, boomPositions) {
   // console.log(boomPositions);
-
   if (boomPositions.includes(userChoice)) {
     return true;
   }
   SAFE_SELECTIONS.push(userChoice);
   NUMBER_BOARD[userChoice - 1] = SYMBOL_SAFE;
   return false;
+}
+
+function countNearbyBooms(indices) {
+  let count = 0;
+  for (let index = 0; index < indices.length; index++) {
+
+    if (BOOMS_BOARD[indices[index] - 1] === SYMBOL_BOOM) {
+      count++;
+    }
+  }
+  return count;
+}
+
+function showHint(userChoice) {
+  const nearbyIndices = [
+    userChoice + 1, userChoice - 1,
+    userChoice + 10, userChoice + 9, userChoice + 11,
+    userChoice - 10, userChoice - 9, userChoice - 11,
+  ]
+  const boomCount = countNearbyBooms(nearbyIndices);
+  NUMBER_BOARD[userChoice - 1] = "\x1B[43m" + boomCount + "\x1B[0m";
+  return;
 }
 
 function play(boomPositions, score) {
@@ -75,8 +97,7 @@ function play(boomPositions, score) {
   if (isLossGame(userChoice, boomPositions)) {
     console.clear();
     // console.log(boomPositions);
-
-    console.log(renderBoard(COPY_NUMBER_BOARD));
+    console.log(renderBoard(BOOMS_BOARD));
     console.log(`💥 Oops! You hit a BOOM at position ${userChoice}!`);
     console.log(`🎯 Your final score: ${score}`);
     console.log("😢 Game Over! Better luck next time.");
@@ -84,6 +105,7 @@ function play(boomPositions, score) {
   }
 
   score++;
+  showHint(userChoice);
   console.clear();
   // console.log(boomPositions);
   console.log(renderBoard(NUMBER_BOARD));
@@ -105,6 +127,7 @@ function main() {
   let boomPositions = placeBooms();
   // console.log(boomPositions);
   console.log(`💣 There are ${boomPositions.length} hidden booms on the board...`);
+
   play(boomPositions, 0);
 }
 
