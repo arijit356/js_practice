@@ -47,7 +47,7 @@ function placeBooms(totalBooms = 10) {
   for (let index = 0; index <= totalBooms; index++) {
     let randomNumber = getRandomNumber(NUMBER_BOARD.length);
     if (COPY_NUMBER_BOARD[randomNumber] !== SYMBOL_BOOM) {
-      COPY_NUMBER_BOARD[randomNumber -1] = SYMBOL_BOOM;
+      COPY_NUMBER_BOARD[randomNumber - 1] = SYMBOL_BOOM;
       boomPositions.push(randomNumber);
     }
   }
@@ -55,7 +55,7 @@ function placeBooms(totalBooms = 10) {
 }
 
 function isLossGame(userChoice, boomPositions) {
-  console.log(boomPositions);
+  // console.log(boomPositions);
 
   if (boomPositions.includes(userChoice)) {
     return true;
@@ -74,7 +74,7 @@ function play(boomPositions, score) {
 
   if (isLossGame(userChoice, boomPositions)) {
     console.clear();
-  console.log(boomPositions);
+    // console.log(boomPositions);
 
     console.log(renderBoard(COPY_NUMBER_BOARD));
     console.log(`💥 Oops! You hit a BOOM at position ${userChoice}!`);
@@ -82,12 +82,13 @@ function play(boomPositions, score) {
     console.log("😢 Game Over! Better luck next time.");
     return;
   }
+
   score++;
   console.clear();
-  console.log(boomPositions);
-
+  // console.log(boomPositions);
   console.log(renderBoard(NUMBER_BOARD));
   console.log(`${SYMBOL_SAFE} Nice move! Your current score: ${score}`);
+
   if (score === NUMBER_BOARD.length - boomPositions.length) {
     console.log("🏆 Congratulations! You cleared the entire board safely!");
     return;
@@ -102,7 +103,7 @@ function main() {
   console.log("-".repeat(80));
   console.log(renderBoard(NUMBER_BOARD));
   let boomPositions = placeBooms();
-  console.log(boomPositions);
+  // console.log(boomPositions);
   console.log(`💣 There are ${boomPositions.length} hidden booms on the board...`);
   play(boomPositions, 0);
 }
