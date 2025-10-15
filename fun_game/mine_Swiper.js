@@ -60,15 +60,20 @@ function isFindPath(userInput) {
   return false;
 }
 
-function isNextBox(){
-  
+function isNextBox(userChoiceArray,userInput){
+  let previousInput = userChoiceArray[userChoiceArray.length - 1];
+  console.log(previousInput);
+if(Math.abs(userInput[0] - previousInput[0]) === 1 && Math.abs(userInput[1] - previousInput[1]) === 1){
+  return true;
+}
+return false;
 }
 function play(userChoiceArray) {
   const row = parseInt(prompt("Enter row : "));
   const coloum = parseInt(prompt("enter Coloum"));
   const userInput = [row, coloum];
 
-  if (userInput.length < 2 || isEqual(userChoiceArray, userInput) || ) {
+  if (userInput.length < 2 || isEqual(userChoiceArray, userInput) || !isNextBox(userChoiceArray, userInput)) {
     console.log("Invalid Input");
     return play(userChoiceArray);
   }
