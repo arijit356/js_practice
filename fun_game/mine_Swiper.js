@@ -44,7 +44,7 @@ const ROUTE = [
   [10, 10],
 ];
 
-function isEqual(array1, array2) {
+function isInRoute(array1, array2) {
   for (let index = 0; index < array1.length; index++) {
     let pos = array1[index];
     if (array2[0] === pos[0] && array2[1] === pos[1]) {
@@ -54,8 +54,8 @@ function isEqual(array1, array2) {
   return false;
 }
 
-function isFindPath(userInput) {
-  if (isEqual(ROUTE, userInput)) {
+function isCorrectMove(userInput) {
+  if (isInRoute(ROUTE, userInput)) {
     BOARD[userInput[0]][userInput[1]] = CT;
     return true;
   }
@@ -63,59 +63,72 @@ function isFindPath(userInput) {
   return false;
 }
 
-function isNextBox(userChoiceArray, userInput) {
-  if (userChoiceArray.length < 1) {
+function isAdjacentMove(playerMoves, userInput) {
+  if (playerMoves.length < 1) {
     return true;
   }
 
-  let previousInput = userChoiceArray[userChoiceArray.length - 1];
-  const increaseRow = Math.abs(userInput[0] - previousInput[0]) === 1 &&
-    Math.abs(userInput[1] - previousInput[1]) === 0;
-  const increaseCol = Math.abs(userInput[1] - previousInput[1]) === 1 &&
-    Math.abs(userInput[0] - previousInput[0]) === 0;
-  if (
-    increaseRow || increaseCol
-  ) {
-    return true;
-  }
-  return false;
+  let lastMove = playerMoves[playerMoves.length - 1];
+  const increaseRow = Math.abs(userInput[0] - lastMove[0]) === 1 &&
+    Math.abs(userInput[1] - lastMove[1]) === 0;
+  const increaseCol = Math.abs(userInput[1] - lastMove[1]) === 1 &&
+    Math.abs(userInput[0] - lastMove[0]) === 0;
+
+    return  increaseRow || increaseCol;
+ 
 }
 
 function isWin(userChoiceArray) {
   if (userChoiceArray.length === ROUTE.length) {
-    console.log("You win the match !");
+     console.log("🎉 You win the match!");
     return true;
   }
   return false;
 }
 
-function play(userChoiceArray) {
-  const row = parseInt(prompt("Enter row : "));
-  const coloum = parseInt(prompt("enter Coloum"));
-  const userInput = [row, coloum];
+function play(playerMoves) {
+  const row = parseInt(prompt("Enter row (1-10) or Q to quit:"));
+  const column = parseInt(prompt("Enter column  (1-10) or Q to quit:"));
+  const userInput = [row, column];
 
   if (
-    userInput.length < 2 || isEqual(userChoiceArray, userInput) ||
-    !isNextBox(userChoiceArray, userInput || isNaN(row) || isNaN(coloum))
+    userInput.length < 2 || isInRoute(playerMoves, userInput) || row < 1 ||
+    row > 10 || column < 1 || column > 10 ||
+    !isAdjacentMove(playerMoves, userInput) || isNaN(row) || isNaN(column)
   ) {
-    console.log("Invalid Input");
-    return play(userChoiceArray);
+    console.log("❌ Invalid Input. Try again.");
+    return play(playerMoves);
   }
 
-  userChoiceArray.push(userInput);
+  playerMoves.push(userInput);
 
-  if (isFindPath(userInput)) {
+  if (isCorrectMove(userInput)) {
     console.clear();
     displayBoard();
-    if (isWin(userChoiceArray)) {
+    if (isWin(playerMoves)) {
       return;
     }
-    return play(userChoiceArray);
+    return play(playerMoves);
   }
   console.clear();
   displayBoard();
-  return;
+  console.log("💥 Wrong move! Game Over.");
 }
 
-displayBoard();
-play([]);
+function main() {
+  console.clear();
+  console.log("📍 Welcome to the Pathfinding Game!");
+  console.log(
+    "➡️ Move through the correct path by entering coordinates (row & column).",
+  );
+  console.log(
+    "🧭 You can only move to adjacent tiles (up, down, left, or right).",
+  );
+  console.log("💣 One wrong move, and it's game over!");
+  console.log("❌ Do not repeat the same position.");
+  console.log("🛑 Type 'Q' to quit anytime.\n");
+  displayBoard();
+  play([]);
+}
+
+main();
