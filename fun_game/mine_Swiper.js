@@ -44,13 +44,7 @@ const ROUTE = [
   [10, 10],
 ];
 
-// for (let index = 0; index < route.length; index++) {
-//   let pos = route[index];
-//   BOARD[pos[0]][pos[1]] = CT;
-// }
-
 function isEqual(array1, array2) {
-  // console.log(array1)
   for (let index = 0; index < array1.length; index++) {
     let pos = array1[index];
     if (array2[0] === pos[0] && array2[1] === pos[1]) {
@@ -62,7 +56,6 @@ function isEqual(array1, array2) {
 
 function isFindPath(userInput) {
   if (isEqual(ROUTE, userInput)) {
-    // console.log("arijit");
     BOARD[userInput[0]][userInput[1]] = CT;
     return true;
   }
