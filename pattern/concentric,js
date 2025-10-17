@@ -33,6 +33,17 @@ function drawCircle(p1, centerPoint, radius) {
   return chooseChar(d, radius);
 }
 
+function sideDistance(p1, center) {
+  const deltaH = p1[0] - center[0];
+  const deltaW = p1[1] - center[1];
+  return Math.abs(deltaH + deltaW) + Math.abs(deltaH - deltaW);
+}
+
+function drawSquare(p1, centerPoint, sideLength) {
+  let d = sideDistance(p1, centerPoint);
+  return chooseChar(d, sideLength);
+}
+
 function draw(patternType, height, width) {
   const lines = [];
   for (let h = 0; h < height; h++) {
@@ -45,6 +56,13 @@ function draw(patternType, height, width) {
         let circle = drawCircle([h, w], [ch, cw], radius);
         line += circle;
       }
+      if (patternType === "square") {
+        const ch = 5;
+        const cw = 5;
+        const sideLength = 10;
+        let square = drawSquare([h, w], [ch, cw], sideLength);
+        line += square;
+      }
     }
     lines.push(line);
   }
@@ -52,7 +70,7 @@ function draw(patternType, height, width) {
 }
 
 function main(args) {
-  const pattern = args[0] || "circle";
+  const pattern = args[0] || "square";
   const height = +args[0] || 30;
   const width = +args[1] || 30;
   draw(pattern, height, width);
