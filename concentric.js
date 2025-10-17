@@ -1,0 +1,62 @@
+const wh = "⬜";
+function sqr(x) {
+  return x * x;
+}
+
+function distanceBetween(p1, p2) {
+  const deltaH = p1[0] - p2[0];
+  const deltaW = p1[1] - p2[1];
+  return Math.sqrt(sqr(deltaH) + sqr(deltaW));
+}
+
+function chooseChar(d, radius) {
+  if (d > radius) {
+    return "⬜";
+  }
+  const ratio = d / radius;
+  if (ratio > 0.8) {
+    return "🟥";
+  }
+  if (ratio > 0.6) {
+    return "🟨";
+  }
+  if (ratio > 0.4) {
+    return "🟩";
+  }
+  if (ratio > 0.2) {
+    return "🟦";
+  }
+  return "🟫";
+}
+
+function drawCircle(p1, centerPoint, radius) {
+  let d = distanceBetween(p1, centerPoint);
+  return chooseChar(d, radius);
+}
+
+function draw(patternType, height, width) {
+  const lines = [];
+  for (let h = 0; h < height; h++) {
+    let line = "";
+    for (let w = 0; w < width; w++) {
+      if (patternType === "circle") {
+        const ch = 15;
+        const cw = 15;
+        const radius = 13;
+        let circle = drawCircle([h, w], [ch, cw], radius);
+        line += circle;
+      }
+    }
+    lines.push(line);
+  }
+  console.log(lines.join("\n"));
+}
+
+function main(args) {
+  const pattern = args[0] || "circle";
+  const height = +args[0] || 30;
+  const width = +args[1] || 30;
+  draw(pattern, height, width);
+}
+
+main(Deno.args);
