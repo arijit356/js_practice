@@ -1,4 +1,3 @@
-const MIN_LENGTH = 10;
 
 function space() {
   console.log("\n");
@@ -43,14 +42,23 @@ function copyWord(word) {
   return coppyOfWord.split("");
 }
 
-function extendWord(word) {
-  if (word.length < MIN_LENGTH) {
-    for (let index = 0; index < MIN_LENGTH - word.length; index++) {
+function extendWord(word, min_length = 10) {
+  if (word.length < min_length) {
+    for (let index = 0; index < min_length - word.length; index++) {
       word.push(word[getRandomNumber(word.length)]);
     }
     return shuffleWord(word);
   }
   return word;
+}
+
+function upperCaseLetter(word) {
+  for (let index = 0; index < word.length; index++) {
+    if (Math.random(1) > 0.4) {
+      word[index] = word[index].toUpperCase();
+    }
+  }
+  return extendWord(word, 15);
 }
 function encryptWord(word, chosenLevel) {
   const baseCopy = copyWord(word);
@@ -62,12 +70,15 @@ function encryptWord(word, chosenLevel) {
   if (chosenLevel === "2") {
     return level2Copy;
   }
+  const level3Copy = upperCaseLetter(level2Copy);
+  if (chosenLevel === "3") {
+    return level3Copy;
+  }
 }
 
-
 function selectDifficulty(word) {
-  const level = prompt("🎚️ Choose difficulty level (1 or 2):");
-  if (level === "1" || level === "2") {
+  const level = prompt("🎚️ Choose difficulty level (1 or 2 or 3):");
+  if (level === "1" || level === "2" || level === "3") {
     return encryptWord(word, level);
   }
   console.log("⚠️ Invalid choice. Please enter 1 or 2.");
@@ -83,7 +94,7 @@ function play(randomWord, totalChances = 5) {
   }
 
   space();
- console.log(`🧩 You have ${totalChances} ${totalChances === 1 ? "chance" : "chances"} left.`);
+  console.log(`🧩 You have ${totalChances} ${totalChances === 1 ? "chance" : "chances"} left.`);
   const guess = prompt("💭 Enter your guess for the decrypted word:");
 
   if (randomWord.join("") === guess) {
