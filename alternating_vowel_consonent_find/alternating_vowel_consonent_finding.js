@@ -3,37 +3,26 @@ function isVowel(letter) {
   return vowelString.includes(letter);
 }
 
-function findingConsonent(array, index, string, remainingLetter) {
+function nextIndex(array, index, string, remainingLetter,isExpectingVowel) {
   if (index === array.length) {
     return [string, remainingLetter];
   }
-  if (!isVowel(array[index])) {
-    string += array[index];
-    return findingVowel(array, index + 1, string, remainingLetter);
-  }
+  const isCurrentCharacterVowel = isVowel(array[index]);
 
-  remainingLetter += array[index];
-  return findingConsonent(array, index + 1, string, remainingLetter);
-}
-
-function findingVowel(array, index, string, remainingLetter) {
-  if (index === array.length) {
-    return [string, remainingLetter];
-  }
-  if (isVowel(array[index])) {
+  if ((isCurrentCharacterVowel && isExpectingVowel) || (!isCurrentCharacterVowel && !isExpectingVowel)) {
     string += array[index];
-    return findingConsonent(array, index + 1, string, remainingLetter);
+    return nextIndex(array, index + 1, string, remainingLetter, !isExpectingVowel);
   }
   remainingLetter += array[index];
-  return findingVowel(array, index + 1, string, remainingLetter);
+  return nextIndex(array,index + 1, string,remainingLetter,isExpectingVowel);
 }
 
 function splitingVowelConsonants(array, spliingArray) {
   let result = 0;
   if (isVowel(array[0])) {
-    result = findingVowel(array, 0, "", "");
+    result = nextIndex(array, 0, "", "",true);
   } else {
-    result = findingConsonent(array, 0, "", "");
+    result = nextIndex(array, 0, "", "",false);
   }
   spliingArray.push(result[0]);
   let remainingLetter = result[1];
