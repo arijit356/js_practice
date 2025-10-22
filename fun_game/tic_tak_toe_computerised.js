@@ -10,7 +10,6 @@ const BOARD = [
 
 const SELECTED_POSITIONS = [];
 const PLAYER_POSITIONS = [];
-const COMPUTER_POSITIONS = [];
 const USED_WIN_COMB = [];
 const WINNING_COMBINATIONS = [
   [1, 2, 3],
@@ -67,14 +66,34 @@ function playerTurn(symbol) {
   SELECTED_POSITIONS.push(position);
   updateBoard(position, symbol);
   renderBoard();
-
 }
 
 function getRandomPosition(endRange = 9) {
   return Math.floor(1 + Math.random() * endRange);
 }
 
-function getSmartMove(playerSymbol) {
+function makeSmartMove(symbolToCheck) {
+  for (let index = 0; index < WINNING_COMBINATIONS.length; index++) {
+    const pos = WINNING_COMBINATIONS[index];
+    let row1 = Math.floor((pos[0] - 1) / 3);
+    let row2 = Math.floor((pos[1] - 1) / 3);
+    let row3 = Math.floor((pos[2] - 1) / 3);
+    let col1 = (pos[0] - 1) % 3;
+    let col2 = (pos[1] - 1) % 3;
+    let col3 = (pos[2] - 1) % 3;
+    if (BOARD[row1][col1] === BOARD[row2][col2] && BOARD[row3][col3] === WHITE && BOARD[row1][col1] === symbolToCheck) {
+      return pos[2]
+    }
+    if (BOARD[row2][col2] === BOARD[row3][col3] && BOARD[row1][col1] === WHITE && BOARD[row2][col2] === symbolToCheck) {
+      return pos[0]
+    }
+    if (BOARD[row1][col1] === BOARD[row3][col3] && BOARD[row2][col2] === WHITE && BOARD[row1][col1] === symbolToCheck) {
+      return pos[1]
+    }
+  }
+  return null;
+}
+function getSmartMove(symbol, playerSymbol) {
   if (((PLAYER_POSITIONS[0] === 1 && PLAYER_POSITIONS[1] === 9) ||
     (PLAYER_POSITIONS[0] === 9 && PLAYER_POSITIONS[1] === 1)) && PLAYER_POSITIONS.length === 2) {
     return 2;
@@ -86,35 +105,25 @@ function getSmartMove(playerSymbol) {
     return 1;
   }
 
-  for (let index = 0; index < WINNING_COMBINATIONS.length; index++) {
-    const pos = WINNING_COMBINATIONS[index];
-    let row1 = Math.floor((pos[0] - 1) / 3);
-    let row2 = Math.floor((pos[1] - 1) / 3);
-    let row3 = Math.floor((pos[2] - 1) / 3);
-    let col1 = (pos[0] - 1) % 3;
-    let col2 = (pos[1] - 1) % 3;
-    let col3 = (pos[2] - 1) % 3;
-    console.log(BOARD[row1][col1], BOARD[row2][col2], BOARD[row3][col3])
-    if (BOARD[row1][col1] === BOARD[row2][col2] && BOARD[row3][col3] === WHITE && BOARD[row1][col1] === playerSymbol) {
-      return pos[2]
-    }
-    if (BOARD[row2][col2] === BOARD[row3][col3] && BOARD[row1][col1] === WHITE && BOARD[row2][col2] === playerSymbol) {
-      return pos[0]
-    }
-    if (BOARD[row1][col1] === BOARD[row3][col3] && BOARD[row2][col2] === WHITE && BOARD[row1][col1] === playerSymbol) {
-      return pos[1]
-    }
+  let move = makeSmartMove(symbol);
+  if (move) {
+    return move;
   }
+
+  move = makeSmartMove(playerSymbol);
+  if (move) {
+    return move;
+  }
+
   return getRandomPosition();
 }
 
 function computerTurn(symbol, playerSymbol) {
-  let position = getSmartMove(playerSymbol);
+  let position = getSmartMove(symbol, playerSymbol);
   while (SELECTED_POSITIONS.includes(position)) {
     position = getRandomPosition();
   }
   SELECTED_POSITIONS.push(position);
-  COMPUTER_POSITIONS.push(position);
   updateBoard(position, symbol);
   console.log("💻 Computer's move:");
   renderBoard();
