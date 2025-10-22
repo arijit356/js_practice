@@ -10,6 +10,8 @@ const BOARD = [
 
 const SELECTED_POSITIONS = [];
 const PLAYER_POSITIONS = [];
+const COMPUTER_POSITIONS = [];
+const USED_WIN_COMB = [];
 const WINNING_COMBINATIONS = [
   [1, 2, 3],
   [4, 5, 6],
@@ -60,7 +62,7 @@ function updateBoard(position, symbol) {
 
 function playerTurn(symbol) {
   const position = getPlayerMove("Yours");
-  console.clear();
+  // console.clear();
   PLAYER_POSITIONS.push(position);
   SELECTED_POSITIONS.push(position);
   updateBoard(position, symbol);
@@ -72,28 +74,47 @@ function getRandomPosition(endRange = 9) {
   return Math.floor(1 + Math.random() * endRange);
 }
 
-function getSmartMove() {
+function getSmartMove(playerSymbol) {
+  if (((PLAYER_POSITIONS[0] === 1 && PLAYER_POSITIONS[1] === 9) ||
+    (PLAYER_POSITIONS[0] === 9 && PLAYER_POSITIONS[1] === 1)) && PLAYER_POSITIONS.length === 2) {
+    return 2;
+  }
+  if ((PLAYER_POSITIONS[0] === 1 || PLAYER_POSITIONS[0] === 9) && PLAYER_POSITIONS.length === 1) {
+    return 5;
+  }
+  if (PLAYER_POSITIONS[0] === 5 && PLAYER_POSITIONS.length === 1) {
+    return 1;
+  }
+
   for (let index = 0; index < WINNING_COMBINATIONS.length; index++) {
     const pos = WINNING_COMBINATIONS[index];
-    if (PLAYER_POSITIONS.includes(pos[0]) && PLAYER_POSITIONS.includes(pos[1])) {
-      return pos[2];
+    let row1 = Math.floor((pos[0] - 1) / 3);
+    let row2 = Math.floor((pos[1] - 1) / 3);
+    let row3 = Math.floor((pos[2] - 1) / 3);
+    let col1 = (pos[0] - 1) % 3;
+    let col2 = (pos[1] - 1) % 3;
+    let col3 = (pos[2] - 1) % 3;
+    console.log(BOARD[row1][col1], BOARD[row2][col2], BOARD[row3][col3])
+    if (BOARD[row1][col1] === BOARD[row2][col2] && BOARD[row3][col3] === WHITE && BOARD[row1][col1] === playerSymbol) {
+      return pos[2]
     }
-    if (PLAYER_POSITIONS.includes(pos[1]) && PLAYER_POSITIONS.includes(pos[2])) {
-      return pos[0];
+    if (BOARD[row2][col2] === BOARD[row3][col3] && BOARD[row1][col1] === WHITE && BOARD[row2][col2] === playerSymbol) {
+      return pos[0]
     }
-    if (PLAYER_POSITIONS.includes(pos[0]) && PLAYER_POSITIONS.includes(pos[2])) {
-      return pos[1];
+    if (BOARD[row1][col1] === BOARD[row3][col3] && BOARD[row2][col2] === WHITE && BOARD[row1][col1] === playerSymbol) {
+      return pos[1]
     }
   }
   return getRandomPosition();
 }
 
-function computerTurn(symbol) {
-  let position = getSmartMove();
+function computerTurn(symbol, playerSymbol) {
+  let position = getSmartMove(playerSymbol);
   while (SELECTED_POSITIONS.includes(position)) {
     position = getRandomPosition();
   }
   SELECTED_POSITIONS.push(position);
+  COMPUTER_POSITIONS.push(position);
   updateBoard(position, symbol);
   console.log("💻 Computer's move:");
   renderBoard();
@@ -125,7 +146,7 @@ function playGame(playerSymbol, computerSymbol) {
     console.log("🤝 It's a draw!");
     return;
   }
-  computerTurn(computerSymbol);
+  computerTurn(computerSymbol, playerSymbol);
   if (isWin(computerSymbol)) {
     console.log("💀 Computer wins!");
     return;
@@ -138,7 +159,7 @@ function playGame(playerSymbol, computerSymbol) {
 }
 
 function play() {
-  console.clear();
+  // console.clear();
   console.log("🎮 Welcome to Tic-Tac-Toe!");
   renderBoard();
   const playerSymbol = selectPlayerSymbol();
