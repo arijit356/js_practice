@@ -63,27 +63,39 @@ function pushDates(year, firstDay) {
   }
 }
 
-function monthFragment(month) {
-  const monthContent = [];
-  for (let week = 0; week < 6; week++) {
-    let thisWeek = '';
-    for (let day = 0; day < 7; day++) {
-      let thisDay = (CALENDAR[month][week][day] || ' ') + " ";
-      thisWeek += thisDay.padEnd(4, " ");
-    }
-    monthContent.push(thisWeek);
-  }
-  return monthContent.join("\n");
-}
-
 function dispCalender(year) {
-  console.log(" ".repeat(11), year, "\n", " ".repeat(10), "-".repeat(4));
-  for (let month = 0; month < 12; month++) {
-    console.log(" ".repeat(9), ALL_MONTHS[month]);
-    console.log(" ".repeat(9), "-".repeat(ALL_MONTHS[month].length));
-    console.log(WEEK_DAYS.join(" "));
-    let thisMonth = monthFragment(month);
-    console.log(thisMonth);
+
+  console.log(" ".repeat(40), year, "\n", " ".repeat(39), "-".repeat(4));
+  for (let row = 0; row < 4; row++) {
+    let startIndex = row * 3;
+
+    let line = '';
+    let underline = '';
+    let weekHeader = '';
+    for (let month = 0; month < 3; month++) {
+      const monthIndex = startIndex + month;
+      let monthName = ALL_MONTHS[monthIndex];
+      line += monthName.padStart(15).padEnd(35);
+      underline += "-".repeat(monthName.length).padStart(15).padEnd(35);
+      weekHeader += WEEK_DAYS.join(" ") + "    ";
+    }
+    console.log(line);
+    console.log(underline);
+    console.log(weekHeader);
+
+    for (let week = 0; week < 6; week++) {
+      let weekRow = "";
+      for (let index = 0; index < 3; index++) {
+        const monthIndex = startIndex + index;
+        for (let day = 0; day < 7; day++) {
+          let thisDay = (CALENDAR[monthIndex][week][day] || " ");
+          weekRow += thisDay.toString().padStart(2, " ").padEnd(3) + " ";
+        }
+        weekRow += "   ";
+      }
+      console.log(weekRow);
+    }
+    console.log("\n")
   }
 }
 
