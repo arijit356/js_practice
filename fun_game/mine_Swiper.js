@@ -14,7 +14,6 @@ const BOARD = [
   ["9  ", WT, WT, WT, WT, WT, WT, WT, WT, WT, WT],
   ["10 ", WT, WT, WT, WT, WT, WT, WT, WT, WT, WT],
 ];
-// ["1","2","3","4","5","6","7","8","9","10"]
 
 function displayBoard() {
   for (let index = 0; index < BOARD.length; index++) {
@@ -126,7 +125,6 @@ function main() {
   );
   console.log("💣 One wrong move, and it's game over!");
   console.log("❌ Do not repeat the same position.");
-  console.log("🛑 Type 'Q' to quit anytime.\n");
   displayBoard();
   play([]);
 }
