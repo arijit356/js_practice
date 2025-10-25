@@ -10,7 +10,6 @@ const BOARD = [
 
 const SELECTED_POSITIONS = [];
 const PLAYER_POSITIONS = [];
-const USED_WIN_COMB = [];
 const WINNING_COMBINATIONS = [
   [1, 2, 3],
   [4, 5, 6],
@@ -61,7 +60,7 @@ function updateBoard(position, symbol) {
 
 function playerTurn(symbol) {
   const position = getPlayerMove("Yours");
-  // console.clear();
+  console.clear();
   PLAYER_POSITIONS.push(position);
   SELECTED_POSITIONS.push(position);
   updateBoard(position, symbol);
@@ -95,14 +94,20 @@ function makeSmartMove(symbolToCheck) {
 }
 function getSmartMove(symbol, playerSymbol) {
   if (((PLAYER_POSITIONS[0] === 1 && PLAYER_POSITIONS[1] === 9) ||
-    (PLAYER_POSITIONS[0] === 9 && PLAYER_POSITIONS[1] === 1)) && PLAYER_POSITIONS.length === 2) {
+    (PLAYER_POSITIONS[0] === 9 && PLAYER_POSITIONS[1] === 1) ||
+    (PLAYER_POSITIONS[0] === 3 && PLAYER_POSITIONS[1] === 7) ||
+    (PLAYER_POSITIONS[0] === 7 && PLAYER_POSITIONS[1] === 3)) && PLAYER_POSITIONS.length === 2) {
     return 2;
   }
-  if ((PLAYER_POSITIONS[0] === 1 || PLAYER_POSITIONS[0] === 9) && PLAYER_POSITIONS.length === 1) {
+  if ((PLAYER_POSITIONS[0] === 1 || PLAYER_POSITIONS[0] === 9 ||
+    PLAYER_POSITIONS[0] === 3 || PLAYER_POSITIONS[0] === 7) && PLAYER_POSITIONS.length === 1) {
     return 5;
   }
   if (PLAYER_POSITIONS[0] === 5 && PLAYER_POSITIONS.length === 1) {
     return 1;
+  }
+  if ((PLAYER_POSITIONS[0] === 6 || PLAYER_POSITIONS[0] === 4) && PLAYER_POSITIONS.length === 1) {
+    return PLAYER_POSITIONS[0] + 3;
   }
 
   let move = makeSmartMove(symbol);
@@ -168,7 +173,7 @@ function playGame(playerSymbol, computerSymbol) {
 }
 
 function play() {
-  // console.clear();
+  console.clear();
   console.log("🎮 Welcome to Tic-Tac-Toe!");
   renderBoard();
   const playerSymbol = selectPlayerSymbol();
@@ -176,8 +181,6 @@ function play() {
   playGame(playerSymbol, computerSymbol);
 }
 
-function main() {
-  play();
-}
+play();
 
-main();
+
