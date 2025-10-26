@@ -18,7 +18,7 @@ const WINNING_COMBINATIONS = [
   [2, 5, 8],
   [3, 6, 9],
   [1, 5, 9],
-  [3, 5, 7],
+  [3, 5, 7]
 ];
 
 function renderBoard() {
@@ -98,6 +98,9 @@ function getSmartMove(symbol, playerSymbol) {
     (PLAYER_POSITIONS[0] === 3 && PLAYER_POSITIONS[1] === 7) ||
     (PLAYER_POSITIONS[0] === 7 && PLAYER_POSITIONS[1] === 3)) && PLAYER_POSITIONS.length === 2) {
     return 2;
+  }
+  if ((PLAYER_POSITIONS[0] === 5 && PLAYER_POSITIONS[1] === 9)) {
+    return 7;
   }
   if ((PLAYER_POSITIONS[0] === 1 || PLAYER_POSITIONS[0] === 9 ||
     PLAYER_POSITIONS[0] === 3 || PLAYER_POSITIONS[0] === 7) && PLAYER_POSITIONS.length === 1) {
@@ -182,5 +185,3 @@ function play() {
 }
 
 play();
-
-
