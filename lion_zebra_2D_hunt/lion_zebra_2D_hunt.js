@@ -1,4 +1,3 @@
-
 const LION = "L";
 const ZEBRA = "Z";
 
@@ -37,11 +36,11 @@ function findShortestDist2D(grid, metric) {
   const zebraPositions = [];
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
-      if (grid[row][col] === LION) {
-        lionPositions.push([row, col]);
-      }
-      if (grid[row][col] === ZEBRA) {
-        zebraPositions.push([row, col]);
+      switch (grid[row][col]) {
+        case LION: lionPositions.push([row, col]);
+          break;
+        case ZEBRA: zebraPositions.push([row, col]);
+          break;
       }
     }
   }
@@ -52,6 +51,7 @@ function findShortestDist2D(grid, metric) {
 
   return shortestDistance(lionPositions, zebraPositions, metric)
 }
+
 function areEqual(expectedValue, actualValue) {
   const tolerance = expectedValue - actualValue;
   return tolerance > -0.001 && tolerance < 0.001;
