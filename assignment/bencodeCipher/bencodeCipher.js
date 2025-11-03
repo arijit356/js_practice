@@ -1,10 +1,15 @@
+const STARTBYI = "i";
+const STARTBYL = "l";
+const ENDBYE = "e";
+const COLON = ":";
+
 function encodeInteger(num) {
-  return "i" + num + "e";
+  return STARTBYI + num + ENDBYE;
 }
 
 function encodeString(str) {
   const lengthOfText = str.length;
-  return lengthOfText + ":" + str;
+  return lengthOfText + COLON + str;
 }
 
 function encodeList(arr) {
@@ -12,7 +17,7 @@ function encodeList(arr) {
   for (let index = 0; index < arr.length; index++) {
     encodedString += encode(arr[index]);
   }
-  return "l" + encodedString + "e";
+  return STARTBYL + encodedString + ENDBYE;
 }
 
 function encode(value) {
@@ -27,48 +32,77 @@ function encode(value) {
 }
 
 function decodeInteger(value) {
-  const endIndex = value.indexOf("e");
+  const endIndex = value.indexOf(ENDBYE);
   return parseInt(value.slice(1, endIndex));
 }
 
 function decodeString(str) {
-  const indexOfColon = str.indexOf(":");
+  const indexOfColon = str.indexOf(COLON);
   const length = parseInt(str.slice(0, indexOfColon));
   return str.slice(indexOfColon + 1, length + indexOfColon + 1);
 }
 
-function getNextParseIndex(index, toDecode, decodedElement) {
-  if (typeof decodedElement === "number") {
-    const numberString = decodedElement.toString();
-    return index + numberString.length + 2;
+function getNextParseIndex(index, decodedElement) {
+  const encodedElement = encode(decodedElement);
+  return index + encodedElement.length;
+}
+
+function getNextIndexOfChar(data, index, char = ENDBYE) {
+  while (index < data.length) {
+    if (data[index] === char) {
+      return index;
+    }
+    index++;
   }
-  if (typeof decodedElement === "string") {
-    const indexOfColon = toDecode.indexOf(":");
-    const length = parseInt(toDecode.slice(0, indexOfColon));
-    return index + length + indexOfColon + 1;
+}
+
+function getLastIndexofString(data, index) {
+  const colonIndex = getNextIndexOfChar(data, index, COLON);
+  const lengthOfString = parseInt(data.slice(index, colonIndex));
+  const startIndex = colonIndex + 1;
+  const endIndex = startIndex + lengthOfString;
+
+  return endIndex;
+}
+
+function getIndexOfE(bencoded, index) {
+  while (index < bencoded.length) {
+    switch (bencoded[index]) {
+      case ENDBYE: return index;
+      case STARTBYI: {
+        index = getNextIndexOfChar(bencoded, index + 1) + 1;
+        break;
+      }
+      case STARTBYL: {
+        index = getIndexOfE(bencoded, index + 1) + 1;
+        break;
+      }
+      default: {
+        index = getLastIndexofString(bencoded, index);
+      }
+    }
   }
 }
 
 function decodeList(bencoded) {
-  const decodedArray = [];
+  const decodedArray = [];          
   let index = 1;
-  const indexOfLastE = bencoded.lastIndexOf("e");
+  const indexOfLastE = getIndexOfE(bencoded, index);
   while (index < indexOfLastE) {
-    const toDecode = bencoded.slice(index, bencoded.length - 1);
+    const toDecode = bencoded.slice(index, indexOfLastE);
     const decodedItem = decode(toDecode);
 
     decodedArray.push(decodedItem);
-    index = getNextParseIndex(index, toDecode, decodedItem);
+    index = getNextParseIndex(index,decodedItem);
   }
-
   return decodedArray;
 }
 
 function decode(value) {
-  if (value.startsWith("i")) {
+  if (value.startsWith(STARTBYI)) {
     return decodeInteger(value);
   }
-  if (value.startsWith("l")) {
+  if (value.startsWith(STARTBYL)) {
     return decodeList(value);
   }
   return decodeString(value);
@@ -173,8 +207,10 @@ function testAllDecode() {
   testDecode("li123ei-42e6:hellowe", [123, -42, "hellow"], "decode integer for array");
   testDecode("l5:applei123el6:bananai-5eee", ["apple", 123, ["banana", -5]], "decode for nested array");
   testDecode("li0e0:l4:testee", [0, "", ["test"]], "decode for nested array");
-  testDecode("l0:i0ele", ["", 0, []], "all edge cases");
+  testDecode("l0:i0elee", ["", 0, []], "all edge cases");
   testDecode("l3:onel3:twol5:threeeee", ["one", ["two", ["three"]]], "multi nested array");
+  testDecode("li1eli123eei4ee", [1, [123], 4], "multi nested array");
+  testDecode("llllli123e3:abeeeeee", [[[[[123, "abe"]]]]], "multi nested array");
 }
 
 function testAll() {
