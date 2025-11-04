@@ -9,18 +9,19 @@ function meanOf(data) {
 }
 
 function sort(data) {
-  let sorted = data.slice();
-  for (let i = 0; i < sorted.length; i++) {
-    for (let j = i + 1; j < sorted.length; j++) {
+  numberOfTimes = 0;
+  const dataToSorted = data.slice();
+  for (let i = 0; i < dataToSorted.length; i++) {
+    for (let j = i + 1; j < dataToSorted.length; j++) {
       numberOfTimes++;
-      if (sorted[i] > sorted[j]) {
-        sorted[i] = sorted[i] + sorted[j];
-        sorted[j] = sorted[i] - sorted[j];
-        sorted[i] = sorted[i] - sorted[j];
+      if (dataToSorted[i] > dataToSorted[j]) {
+        const temp = dataToSorted[i];
+        dataToSorted[i] = dataToSorted[j];
+        dataToSorted[j]=temp;
       }
     }
   }
-  return sorted;
+  return dataToSorted;
 }
 
 function medianOf(data) {
@@ -46,7 +47,7 @@ function displayStatistics() {
 
   console.log("Standard Deviation is:", standardDeviation);
   console.log("Median value is:", median);
-  console.log("Benchmarks is : ", numberOfTimes);
+  console.log("Benchmarks is :", numberOfTimes);
 }
 
 displayStatistics();
