@@ -1,12 +1,12 @@
-const isOdd = (number) => {
+const isOdd = (number)=>{
   return number % 2 !== 0;
 }
 
-const filter = function (array, mapper) {
+const filter = function (array, predicate){
   const result = [];
-  for (let index = 0; index < array.length; index++) {
-    if (mapper(array[index])) {
-      result.push(array[index]);
+  for (const element of array) {
+    if(predicate(element)){
+      result.push(element);
     }
   }
   return result;
@@ -52,15 +52,15 @@ function composeMessage(text, expectedValue, actualValue, purpose) {
   return displayResult(input, actual, expected, purpose);
 }
 
-const testOperation = function (data, expectedValue, purpose, operation, functionToUse, initialValue) {
-  const actualValue = functionToUse(data, operation, initialValue);
+const testOperation = function (data, expectedValue, purpose, operation, functionToUse,initialValue) {
+  const actualValue = functionToUse(data, operation,initialValue);
   console.log(
     composeMessage(data, expectedValue, actualValue, purpose),
   );
 }
 
 function testAll() {
-  testOperation([1, 2, 3, 4], [1, 3], "simple integer find odd number", isOdd, filter);
+    testOperation([1, 2, 3, 4], [1, 3], "simple integer find odd number", isOdd, filter);
 
 
 }
