@@ -1,11 +1,11 @@
-const squareRoots = function (number){
+const squareRoots = (number)=>{
   return Math.sqrt(number);
 }
 
 const map = function (array, mapper){
   const result = [];
-  for (let index = 0; index < array.length; index++) {
-    result.push(mapper(array[index]))
+  for (const element of array) {
+    result.push(mapper(element));
   }
   return result;
 }
