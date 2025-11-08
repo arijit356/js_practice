@@ -14,8 +14,8 @@ const countOddNumbers = (count, number) => {
 
 const reduce = (array, reducer, initialValue) => {
   let result = initialValue;
-  for (let index = 0; index < array.length; index++) {
-    result = reducer(result, array[index]);
+  for (const element of array) {
+    result = reducer(result, element);
   }
   return result;
 }
