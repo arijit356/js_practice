@@ -50,8 +50,8 @@ const QUESTION49 = ["### **49. Coin Collection Tally**", "Coins collected:", [[1
 const QUESTION50 = ["### **50. Cooking Class Spices**", "Spices:", [["salt", "pepper"], ["turmeric"], ["salt"]], "Unique spices used."];
 
 
-const countNumber = (count, element) => {
-  return element === "blue" ? count + 1 : count;
+const countNumber = (count, element, elementToFind) => {
+  return element === elementToFind ? count + 1 : count;
 }
 const removeDuplication = (initialValue, element) => {
   if (!initialValue.includes(element)) {
@@ -70,7 +70,7 @@ const gretterOfNumber = (element) => {
 }
 
 const QUESTION1_SOLUTION = (data, operation, initialValue) => {
-  return data.reduce(operation, initialValue);
+  return data.reduce((equmulatar, element) => operation(equmulatar, element, "blue"), initialValue);
 }
 const QUESTION2_SOLUTION = (data) => {
   return data.flat();
@@ -96,6 +96,9 @@ const QUESTION8_SOLUTION = (data, operation, initialValue) => {
 const QUESTION9_SOLUTION = (data, operation, initialValue) => {
   return data.flat().reduce(operation, initialValue);
 }
+const QUESTION10_SOLUTION = (data, operation, initialValue) => {
+  return data.flat().reduce((equmulatar, element) => operation(equmulatar, element, "Dune "), initialValue);
+}
 
 const QUESTION_WITH_SOLUTION = [
   [QUESTION1, QUESTION1_SOLUTION, countNumber, 0],
@@ -106,7 +109,8 @@ const QUESTION_WITH_SOLUTION = [
   [QUESTION6, QUESTION6_SOLUTION, findSang],
   [QUESTION7, QUESTION7_SOLUTION, gretterOfNumber],
   [QUESTION8, QUESTION8_SOLUTION, addNumbers, 0],
-  [QUESTION9, QUESTION9_SOLUTION, addNumbers, 0],
+  [QUESTION9, QUESTION9_SOLUTION, removeDuplication, []],
+  [QUESTION10, QUESTION10_SOLUTION, countNumber, 0],
 
 ]
 
