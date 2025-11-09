@@ -1,10 +1,9 @@
-
 const flat = function (array, depth, result = [], index = 0) {  
   if (index === array.length) {
     return result;
   }
   if (Array.isArray(array[index]) && depth > 0) {
-    result = flat(array[index], depth - 1, result, 0);    
+    flat(array[index], depth - 1, result, 0);    
     return flat(array, depth, result, index + 1);
   }
   result.push(array[index]);
