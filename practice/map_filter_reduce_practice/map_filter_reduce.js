@@ -50,80 +50,95 @@ const QUESTION49 = ["### **49. Coin Collection Tally**", "Coins collected:", [[1
 const QUESTION50 = ["### **50. Cooking Class Spices**", "Spices:", [["salt", "pepper"], ["turmeric"], ["salt"]], "Unique spices used."];
 
 
-const countNumber = (count, element, elementToFind) => {
+const countOccurrences = (count, element, elementToFind) => {
   return element === elementToFind ? count + 1 : count;
 }
-const removeDuplication = (initialValue, element) => {
-  if (!initialValue.includes(element)) {
-    initialValue.push(element);
+const collectUniqueItems = (uniqueList, element) => {
+  if (!uniqueList.includes(element)) {
+    uniqueList.push(element);
   }
-  return initialValue;
+  return uniqueList;
 }
-const addNumbers = (initialValue, element) => {
-  return initialValue + element;
+const sumNumbers = (total, element) => {
+  return total + element;
 }
-const findSang = (element) => {
-  return element === "do";
+const matchesTarget = (element, elementToFind) => {
+  return element === elementToFind;
 }
-const gretterOfNumber = (element) => {
-  return element < 32;
+const isBelowNumber = (element,elementToCheck) => {
+  return element < elementToCheck;
+}
+const isGretterNumber = (element,elementToCheck)=>{
+  return element > elementToCheck
 }
 
-const QUESTION1_SOLUTION = (data, operation, initialValue) => {
-  return data.reduce((equmulatar, element) => operation(equmulatar, element, "blue"), initialValue);
+const getFrequency = (data, reducer, initialValue, elementToFind) => {
+  return data.flat().reduce((acc, element) => reducer(acc, element, elementToFind), initialValue);
 }
-const QUESTION2_SOLUTION = (data) => {
+const flattenLists = (data) => {
   return data.flat();
 }
-const QUESTION3_SOLUTION = (data, operation, initialValue) => {
-  return data.reduce(operation, initialValue);
+const removeDuplicates = (data, reducer, initialValue) => {
+  return data.flat().reduce(reducer, initialValue);
 }
-const QUESTION4_SOLUTION = (data, operation, initialValue) => {
-  return data.flat().reduce(operation, initialValue);
+const checkIfAnyMatch = (data, comparator, initialValue, elementToFind) => {
+  return data.flat().some((element) => comparator(element, elementToFind));
 }
-const QUESTION5_SOLUTION = (data, operation, initialValue) => {
-  return data.flat().reduce(operation, initialValue);
-}
-const QUESTION6_SOLUTION = (data, operation) => {
-  return data.flat().some(operation);
-}
-const QUESTION7_SOLUTION = (data, operation) => {
-  return data.flat().every(operation);
-}
-const QUESTION8_SOLUTION = (data, operation, initialValue) => {
-  return data.flat().reduce(operation, initialValue);
-}
-const QUESTION9_SOLUTION = (data, operation, initialValue) => {
-  return data.flat().reduce(operation, initialValue);
-}
-const QUESTION10_SOLUTION = (data, operation, initialValue) => {
-  return data.flat().reduce((equmulatar, element) => operation(equmulatar, element, "Dune "), initialValue);
+const checkIfAllMatch = (data, condition,elementToCheck) => {
+  return data.flat().every((element) => condition(element,elementToCheck));
 }
 
 const QUESTION_WITH_SOLUTION = [
-  [QUESTION1, QUESTION1_SOLUTION, countNumber, 0],
-  [QUESTION2, QUESTION2_SOLUTION],
-  [QUESTION3, QUESTION3_SOLUTION, removeDuplication, []],
-  [QUESTION4, QUESTION4_SOLUTION, removeDuplication, []],
-  [QUESTION5, QUESTION5_SOLUTION, addNumbers, 0],
-  [QUESTION6, QUESTION6_SOLUTION, findSang],
-  [QUESTION7, QUESTION7_SOLUTION, gretterOfNumber],
-  [QUESTION8, QUESTION8_SOLUTION, addNumbers, 0],
-  [QUESTION9, QUESTION9_SOLUTION, removeDuplication, []],
-  [QUESTION10, QUESTION10_SOLUTION, countNumber, 0],
+  [QUESTION1, getFrequency, countOccurrences, 0, "blue"],
+  [QUESTION2, flattenLists],
+  [QUESTION3, removeDuplicates, collectUniqueItems, []],
+  [QUESTION4, removeDuplicates, collectUniqueItems, []],
+  [QUESTION5, removeDuplicates, sumNumbers, 0],
+  [QUESTION6, checkIfAnyMatch, matchesTarget, 0, "do"],
+  [QUESTION7, checkIfAllMatch, isBelowNumber,32],
+  [QUESTION8, removeDuplicates, sumNumbers, 0],
+  [QUESTION9, removeDuplicates, collectUniqueItems, []],
+  [QUESTION10, getFrequency, countOccurrences, 0, "Dune"],
+  [QUESTION11, removeDuplicates, collectUniqueItems, []],
+  [QUESTION12, checkIfAnyMatch, matchesTarget, 0, "so"],
+  [QUESTION13, removeDuplicates, sumNumbers, 0],
+  [QUESTION14, removeDuplicates, collectUniqueItems, []],
+  [QUESTION15, getFrequency, countOccurrences, 0, "deer"],
+  [QUESTION16, removeDuplicates, sumNumbers, 0],
+  [QUESTION17, checkIfAnyMatch, matchesTarget, 0, "turn"],
+  [QUESTION18, removeDuplicates, sumNumbers, 0],
+  [QUESTION19, removeDuplicates, sumNumbers, 0],
+  [QUESTION20, removeDuplicates, collectUniqueItems, []],
+  [QUESTION21, removeDuplicates, sumNumbers, 0],
+  [QUESTION22, removeDuplicates, collectUniqueItems, []],
+  [QUESTION23, removeDuplicates, collectUniqueItems, []],
+  [QUESTION24, getFrequency, countOccurrences, 0, "chocolate"],
+  [QUESTION25, removeDuplicates, collectUniqueItems, []],
+  [QUESTION26, removeDuplicates, sumNumbers, 0],
+  [QUESTION27, removeDuplicates, collectUniqueItems, []],
+  [QUESTION28, removeDuplicates, sumNumbers, 0],
+  [QUESTION29, checkIfAllMatch, isGretterNumber,0],
+  [QUESTION30, removeDuplicates, sumNumbers, 0],
+  [QUESTION31, removeDuplicates, collectUniqueItems, []],
+  [QUESTION32, removeDuplicates, collectUniqueItems, []],
+  [QUESTION33, checkIfAllMatch, isBelowNumber,120],
+  [QUESTION34, removeDuplicates, sumNumbers, 0],
+  [QUESTION35, getFrequency, countOccurrences, 0, "track1"],
+  [QUESTION36, removeDuplicates, collectUniqueItems, []],
+
 
 ]
 
-const showResult = (question, functionToUse, operation, initialValue) => {
+const showResult = (question, functionToUse, operation, initialValue, elementToFind) => {
   const data = question[2];
   console.log(question.join("\n"));
-  const result = functionToUse(data, operation, initialValue);
+  const result = functionToUse(data, operation, initialValue, elementToFind);
   console.log("result", result);
   console.log("\n");
 }
 const solution = () => {
   QUESTION_WITH_SOLUTION.forEach(element =>
-    showResult(element[0], element[1], element[2], element[3])
+    showResult(element[0], element[1], element[2], element[3], element[4])
   )
 }
 
