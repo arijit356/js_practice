@@ -65,11 +65,14 @@ const sumNumbers = (total, element) => {
 const matchesTarget = (element, elementToFind) => {
   return element === elementToFind;
 }
-const isBelowNumber = (element,elementToCheck) => {
+const isBelowNumber = (element, elementToCheck) => {
   return element < elementToCheck;
 }
-const isGretterNumber = (element,elementToCheck)=>{
+const isGretterNumber = (element, elementToCheck) => {
   return element > elementToCheck
+}
+const isEqual = (element, elementToCheck) => {
+  return element === elementToCheck;
 }
 
 const getFrequency = (data, reducer, initialValue, elementToFind) => {
@@ -84,8 +87,8 @@ const removeDuplicates = (data, reducer, initialValue) => {
 const checkIfAnyMatch = (data, comparator, initialValue, elementToFind) => {
   return data.flat().some((element) => comparator(element, elementToFind));
 }
-const checkIfAllMatch = (data, condition,elementToCheck) => {
-  return data.flat().every((element) => condition(element,elementToCheck));
+const checkIfAllMatch = (data, condition, elementToCheck) => {
+  return data.flat().every((element) => condition(element, elementToCheck));
 }
 
 const QUESTION_WITH_SOLUTION = [
@@ -95,7 +98,7 @@ const QUESTION_WITH_SOLUTION = [
   [QUESTION4, removeDuplicates, collectUniqueItems, []],
   [QUESTION5, removeDuplicates, sumNumbers, 0],
   [QUESTION6, checkIfAnyMatch, matchesTarget, 0, "do"],
-  [QUESTION7, checkIfAllMatch, isBelowNumber,32],
+  [QUESTION7, checkIfAllMatch, isBelowNumber, 32],
   [QUESTION8, removeDuplicates, sumNumbers, 0],
   [QUESTION9, removeDuplicates, collectUniqueItems, []],
   [QUESTION10, getFrequency, countOccurrences, 0, "Dune"],
@@ -117,14 +120,29 @@ const QUESTION_WITH_SOLUTION = [
   [QUESTION26, removeDuplicates, sumNumbers, 0],
   [QUESTION27, removeDuplicates, collectUniqueItems, []],
   [QUESTION28, removeDuplicates, sumNumbers, 0],
-  [QUESTION29, checkIfAllMatch, isGretterNumber,0],
+  [QUESTION29, checkIfAllMatch, isGretterNumber, 0],
   [QUESTION30, removeDuplicates, sumNumbers, 0],
   [QUESTION31, removeDuplicates, collectUniqueItems, []],
   [QUESTION32, removeDuplicates, collectUniqueItems, []],
-  [QUESTION33, checkIfAllMatch, isBelowNumber,120],
+  [QUESTION33, checkIfAllMatch, isBelowNumber, 120],
   [QUESTION34, removeDuplicates, sumNumbers, 0],
   [QUESTION35, getFrequency, countOccurrences, 0, "track1"],
   [QUESTION36, removeDuplicates, collectUniqueItems, []],
+  [QUESTION37, removeDuplicates, collectUniqueItems, []],
+  [QUESTION38, removeDuplicates, collectUniqueItems, []],
+  [QUESTION39, removeDuplicates, sumNumbers, 0],
+  [QUESTION40, checkIfAllMatch, isGretterNumber, 7],
+  [QUESTION41, removeDuplicates, sumNumbers, 0],
+  [QUESTION42, removeDuplicates, collectUniqueItems, []],
+  [QUESTION43, removeDuplicates, collectUniqueItems, []],
+  [QUESTION44, removeDuplicates, sumNumbers, 0],
+  [QUESTION45, removeDuplicates, sumNumbers, 0],
+  [QUESTION46, removeDuplicates, collectUniqueItems, []],
+  [QUESTION47, checkIfAnyMatch, isEqual, 0, 4],
+  [QUESTION48, removeDuplicates, collectUniqueItems, []],
+  [QUESTION49, removeDuplicates, sumNumbers, 0],
+  [QUESTION50, removeDuplicates, collectUniqueItems, []],
+
 
 
 ]
@@ -137,7 +155,7 @@ const showResult = (question, functionToUse, operation, initialValue, elementToF
   console.log("\n");
 }
 const solution = () => {
-  QUESTION_WITH_SOLUTION.forEach(element =>
+  QUESTION_WITH_SOLUTION.map(element =>
     showResult(element[0], element[1], element[2], element[3], element[4])
   )
 }
